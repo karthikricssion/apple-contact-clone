@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
+  editMode: false,
   records: []
 }
 
@@ -12,8 +13,22 @@ const mutations = {
     state.records.push(contact)
   },
 
-  updateIsEdit(state, { contact, isEditing = contact.isEditing }) {
-    contact.isEditing = isEditing
+  updateIsEdit(state, contact) {
+    console.log('Hello', contact.uid)
+    state.records = state.records.map(record => {
+      if (record.uid === contact.uid) {
+        return contact
+      }      
+      return record
+    })
+  },
+
+  removeRecord(state, contact) {
+    state.records.splice(state.records.indexOf(contact), 1)
+  },
+
+  toggleEditMode(state) {
+    state.editMode = !state.editMode
   },
 
   editRecord(state, editRecord) {
@@ -42,16 +57,29 @@ const actions = {
     })
   },
 
+  removeRecord ({ commit }, contact) {
+    commit('removeRecord', contact)
+  },
+
   updateIsEdit ({ commit }, contact) {
     commit('updateIsEdit', {
-      contact, isEditing: !contact.isEditing
+      ...contact,
+      isEditing: !contact.isEditing
     })
+  },
+
+  toggleEditMode ({ commit }) {
+    commit('toggleEditMode')
   }
 }
 
 const getters = {
   getRecordById: (state) => (id) => {
     return state.records.find(record => record.uid === id)
+  },
+
+  getEditModeStatus: (state) => () => {
+    return state.editMode
   }
 }
 

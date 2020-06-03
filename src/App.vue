@@ -40,7 +40,6 @@ export default {
     margin: 0;
     
     a {
-      transition: color .1s linear, background-color .1s ease-in;
       color: #039be5;
       text-decoration: none !important;
     }

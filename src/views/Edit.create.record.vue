@@ -105,20 +105,35 @@ export default {
     },
 
     beforeDestroy() {
-      this.$store.dispatch('updateIsEdit', this.contact)
+      if(this.getEditModeStatus()) {
+        this.$store.dispatch('updateIsEdit', this.contact)
+      }
+    },
+
+    beforeRouteUpdate: function(to, from, next) {
+      if(this.getEditModeStatus()) {  
+        this.$store.dispatch('updateIsEdit', this.getRecordById(from.params.id))
+      }
+      
+      next()
     },
 
     computed: {
       ...mapGetters([
-        'getRecordById'
+        'getRecordById',
+        'getEditModeStatus'
       ])
     },
 
     methods: {
       getRecord() {
-        this.contact = this.getRecordById(this.$route.params.id)
-        if(this.contact) {
+        let gotContact = this.getRecordById(this.$route.params.id)
+        if(gotContact) {          
+          this.contact = JSON.parse(JSON.stringify(gotContact))
           this.$store.dispatch('updateIsEdit', this.contact)
+          if(!this.getEditModeStatus()) {
+            this.$store.dispatch('toggleEditMode')
+          }
           this.load = false
         } else {
           this.$router.push({

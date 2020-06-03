@@ -21,3 +21,6 @@ npm run lint
 ```
 
 [Status Demo](https://infallible-sammet-50268e.netlify.app/#/).
+
+
+status update on isEditing took me a long time
