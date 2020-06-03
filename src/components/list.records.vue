@@ -23,6 +23,14 @@
 <script>
 import { mapGetters } from 'vuex'
 
+var getNextLetterIndex = function(index) {
+    if (index === 25) {
+        return 0;
+    } else {
+        return index+1;
+    }
+};
+
 export default {
     name: 'ListRecords',
     data() {
@@ -47,58 +55,46 @@ export default {
             return this.records.filter(i=> { return i.name.lastName.toLowerCase().indexOf(l.toLowerCase()) === 0; });
         },
 
-        checkAndgetNext(parentIndex) {
-            if(this.count < this.letters.length) {
-                if(parentIndex < this.letters.length) {
-                    parentIndex++
-                    if(parentIndex < this.letters.length) {
-                        var childrensRecords = this.alphaContacts(this.letters[parentIndex])
-                        if(childrensRecords.length != 0) {
-                            return childrensRecords
-                        } else {
-                            this.count++
-                            return this.checkAndgetNext(parentIndex)
-                        }
-                    } else {
-                        this.count = 0
-                        return this.checkAndgetNext(-1)
-                    }
-
-                } else {
-                    this.count = 0
-                    return this.checkAndgetNext(-1)
-                }
-            } else {
-                this.$router.push({
-                    name: 'home'                    
-                })
-            }
-        },
-
         deleteRecord: function(contact, idx ,letter, index) {
             this.$store.dispatch('removeRecord', contact)
-            let childerns = this.alphaContacts(letter)
+            let children = this.alphaContacts(letter)
 
-            // console.log(idx, childerns.length)
-
-            if(idx < childerns.length) {  
+            if (!this.$store.state.records.length) { // we've exhausted all contacts
+                this.$router.push({
+                    name: 'home'
+                })
+            } else if (children.length && idx < children.length) { // we haven't exhausted the current letter yet
                 this.$router.push({
                     name: 'editRecord',
                     params: {
-                        id: childerns[idx].uid
+                        id: children[idx].uid
                     }
                 })
-            } else if(idx === childerns.length) {
-                childerns = this.checkAndgetNext(index)
-                if(childerns) {
-                    this.$router.push({
-                        name: 'editRecord',
-                        params: {
-                            id: childerns[0].uid
-                        }
-                    })
-                }
-            }            
+            } else { // childrens.length === 0 i.e we exhausted the current letter
+                // go to next letter with contacts
+                var nextLetter = this.getNextLetterWithContacts(index);
+                var nextChildren = this.alphaContacts(nextLetter);
+                this.$router.push({
+                    name: 'editRecord',
+                    params: {
+                        id: nextChildren[0].uid
+                    }
+                })
+            }        
+        },
+
+        getNextLetterWithContacts: function(index) {
+            var children = [];
+            var nextLetter;
+            while (children.length === 0) { // iterate until we find a letter with children
+                // this loop can go forever incase of empty contacts
+                // but empty contacts case is handled by the callee, so no risk.
+                index = getNextLetterIndex(index);
+                nextLetter = this.letters[index];
+                children = this.alphaContacts(nextLetter);
+            }
+
+            return nextLetter;
         },
 
         frameRoute() {

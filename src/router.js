@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import EditOrCreateRecord from './views/Edit.create.record.vue'
 import ViewRecord from './views/View.record.vue'
-// import store from './store'
+import store from './store'
 
 Vue.use(Router)
 
@@ -40,12 +40,13 @@ const router = new Router({
     ]
 })
 
-// router.beforeEach((to, from, next) => {
-//     if(store.state.records.length == 0 && to.path !== '/' && to.path !== '/new') {
-//         next('/')
-//     } else {
-//         next()
-//     }
-// })
+router.beforeEach((to, from, next) => {
+    if(store.state.records.length == 0 && to.path !== '/' && to.path !== '/new') {
+        next('/')
+    } else {
+        // console.log(to)
+        next()
+    }
+})
 
 export default router
