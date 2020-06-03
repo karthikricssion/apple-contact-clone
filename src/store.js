@@ -14,10 +14,10 @@ const mutations = {
   },
 
   updateIsEdit(state, contact) {
-    console.log('Hello', contact.uid)
     state.records = state.records.map(record => {
-      if (record.uid === contact.uid) {
-        return contact
+      if (record.uid === contact.id) {
+        record.isEditing = !record.isEditing
+        return record
       }      
       return record
     })
@@ -51,9 +51,9 @@ const actions = {
   },
 
   editRecord ({ commit }, contact) {
+    console.log(contact)
     commit('editRecord', {
-      ...contact,
-      isEditing: !contact.isEditing
+      ...contact
     })
   },
 
@@ -61,10 +61,9 @@ const actions = {
     commit('removeRecord', contact)
   },
 
-  updateIsEdit ({ commit }, contact) {
+  updateIsEdit ({ commit }, id) {
     commit('updateIsEdit', {
-      ...contact,
-      isEditing: !contact.isEditing
+      id
     })
   },
 

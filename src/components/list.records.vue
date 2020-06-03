@@ -104,6 +104,10 @@ export default {
                             font-size: 14px;
                             padding: 8px;
                             padding-left: 40px;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            padding-right: 32px;
 
                             &.router-link-exact-active, &.router-link-active {
                                 color: #fff;

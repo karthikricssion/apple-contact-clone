@@ -42,6 +42,7 @@ export default {
     a {
       color: #039be5;
       text-decoration: none !important;
+      cursor: pointer;
     }
   }
   

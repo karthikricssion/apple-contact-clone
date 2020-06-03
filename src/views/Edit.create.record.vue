@@ -104,17 +104,21 @@ export default {
       }
     },
 
-    beforeDestroy() {
-      if(this.getEditModeStatus()) {
-        this.$store.dispatch('updateIsEdit', this.contact)
-      }
+    beforeRouteUpdate: function(to, from, next) {
+      if(from.name === 'editRecord') {
+        if(this.getEditModeStatus()) {  
+          this.$store.dispatch('updateIsEdit', from.params.id)
+        }
+      } 
+
+      next()
     },
 
-    beforeRouteUpdate: function(to, from, next) {
-      if(this.getEditModeStatus()) {  
-        this.$store.dispatch('updateIsEdit', this.getRecordById(from.params.id))
+    beforeRouteLeave(to, from, next) {
+      if(to.name !== 'editRecord') {
+        this.$store.dispatch('updateIsEdit', from.params.id)
       }
-      
+
       next()
     },
 
@@ -128,9 +132,11 @@ export default {
     methods: {
       getRecord() {
         let gotContact = this.getRecordById(this.$route.params.id)
+        
         if(gotContact) {          
+          this.$store.dispatch('updateIsEdit', gotContact.uid)
           this.contact = JSON.parse(JSON.stringify(gotContact))
-          this.$store.dispatch('updateIsEdit', this.contact)
+
           if(!this.getEditModeStatus()) {
             this.$store.dispatch('toggleEditMode')
           }
@@ -146,11 +152,18 @@ export default {
       saveRecord () {
         if(this.view == 'new') {
           this.$store.dispatch('addRecord', this.contact)
+          this.contact = ContactObj()
         } else {
           this.$store.dispatch('editRecord', this.contact)
-        }
-        
-        this.contact = ContactObj()
+          
+          this.$store.dispatch('toggleEditMode')
+          this.$router.push({
+            name: 'viewRecord',
+            params: {
+              id: this.$route.params.id
+            }
+          })
+        }        
       }
     }
 }
