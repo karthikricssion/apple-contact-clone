@@ -5,12 +5,12 @@
                 <template v-if="alphaContacts(letter).length">
                     <h4>{{ letter }}</h4>
                     <ul>
-                        <li v-for="contact in alphaContacts(letter)" :key="contact.uid">
+                        <li v-for="(contact, idx) in alphaContacts(letter)" :key="idx">
                             <router-link :to="{ name: frameRoute() , params: { id: contact.uid } }">
                                 {{contact.name.firstName}} {{contact.name.lastName}} 
                             </router-link>
                             <template v-if="contact.isEditing">
-                                <span @click="deleteRecord(contact)" class="delete-icon">-</span>
+                                <span @click="deleteRecord(contact, idx, letter, index)" class="delete-icon">-</span>
                             </template>
                         </li>
                     </ul>
@@ -27,7 +27,8 @@ export default {
     name: 'ListRecords',
     data() {
         return {
-            letters:'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+            letters:'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
+            count: 0
         }
     },
 
@@ -46,11 +47,58 @@ export default {
             return this.records.filter(i=> { return i.name.lastName.toLowerCase().indexOf(l.toLowerCase()) === 0; });
         },
 
-        deleteRecord: function(contact) {
+        checkAndgetNext(parentIndex) {
+            if(this.count < this.letters.length) {
+                if(parentIndex < this.letters.length) {
+                    parentIndex++
+                    if(parentIndex < this.letters.length) {
+                        var childrensRecords = this.alphaContacts(this.letters[parentIndex])
+                        if(childrensRecords.length != 0) {
+                            return childrensRecords
+                        } else {
+                            this.count++
+                            return this.checkAndgetNext(parentIndex)
+                        }
+                    } else {
+                        this.count = 0
+                        return this.checkAndgetNext(-1)
+                    }
+
+                } else {
+                    this.count = 0
+                    return this.checkAndgetNext(-1)
+                }
+            } else {
+                this.$router.push({
+                    name: 'home'                    
+                })
+            }
+        },
+
+        deleteRecord: function(contact, idx ,letter, index) {
             this.$store.dispatch('removeRecord', contact)
-            this.$router.push({
-                path: '/new'
-            })
+            let childerns = this.alphaContacts(letter)
+
+            // console.log(idx, childerns.length)
+
+            if(idx < childerns.length) {  
+                this.$router.push({
+                    name: 'editRecord',
+                    params: {
+                        id: childerns[idx].uid
+                    }
+                })
+            } else if(idx === childerns.length) {
+                childerns = this.checkAndgetNext(index)
+                if(childerns) {
+                    this.$router.push({
+                        name: 'editRecord',
+                        params: {
+                            id: childerns[0].uid
+                        }
+                    })
+                }
+            }            
         },
 
         frameRoute() {

@@ -51,7 +51,6 @@ const actions = {
   },
 
   editRecord ({ commit }, contact) {
-    console.log(contact)
     commit('editRecord', {
       ...contact
     })
