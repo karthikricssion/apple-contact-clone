@@ -104,6 +104,10 @@ export default {
       }
     },
 
+    beforeDestroy() {
+      this.$store.dispatch('updateIsEdit', this.contact)
+    },
+
     computed: {
       ...mapGetters([
         'getRecordById'
@@ -131,16 +135,7 @@ export default {
           this.$store.dispatch('editRecord', this.contact)
         }
         
-        this.contact = {
-          name: {
-              firstName: '',
-              lastName: ''
-          },
-          phone: 0,
-          email: '',
-          address: '',
-          notes: ''
-        }
+        this.contact = ContactObj()
       }
     }
 }

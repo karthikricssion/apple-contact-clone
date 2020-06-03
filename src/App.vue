@@ -7,10 +7,19 @@
 
 <script>
 import ListRecords from './components/list.records.vue'
+import MockData from './mock-data/index'
+
 export default {
   name: 'App',
   components: {
     ListRecords
+  },
+
+  beforeCreate() {
+    var mockLength = MockData.length
+    for(var i = 0; i < mockLength; i++) {
+      this.$store.dispatch('addRecord', MockData[i])
+    }
   }
 }
 

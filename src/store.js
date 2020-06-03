@@ -19,7 +19,7 @@ const mutations = {
   editRecord(state, editRecord) {
     state.records = state.records.map(record => {
       if (record.uid === editRecord.uid) {
-        return Object.assign({}, record, editRecord)
+        return editRecord
       }
       return record
     })
@@ -30,7 +30,7 @@ const actions = {
   addRecord ({ commit }, contact) {
     commit('addRecord', {
       ...contact,
-      uid: (Date.now()).toString(),      
+      uid: contact.uid || (Date.now()).toString(),      
       isEditing: false
     })
   },
