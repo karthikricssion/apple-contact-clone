@@ -13,6 +13,12 @@
 
 
 ## Project setup
+If ``vue-cli`` not installed, install it using the below command or jump to next step.
+
+```
+npm install -g @vue/cli
+```
+
 ```
 npm install
 ```
