@@ -171,19 +171,21 @@ export default {
       },
 
       saveContact () {
-        if(this.view == 'new') {
-          this.$store.dispatch('addContact', this.contact)
-          this.contact = getNewContactObj()
-        } else {
-          this.$store.dispatch('editContact', this.contact)
-          this.$store.dispatch('setEditMode', false)
+        if(this.contact.name.firstName && this.contact.name.lastName) {
+          if(this.view == 'new') {
+            this.$store.dispatch('addContact', this.contact)
+            this.contact = getNewContactObj()
+          } else {
+            this.$store.dispatch('editContact', this.contact)
+            this.$store.dispatch('setEditMode', false)
 
-          this.$router.push({
-            name: 'viewContact',
-            params: {
-              id: this.$route.params.id
-            }
-          })
+            this.$router.push({
+              name: 'viewContact',
+              params: {
+                id: this.$route.params.id
+              }
+            })
+          }
         }        
       }
     }
