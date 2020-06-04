@@ -3,8 +3,17 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+var getNextLetterIndex = function(index) {
+  if (index === 25) {
+      return 0;
+  } else {
+      return index+1;
+  }
+};
+
 const state = {
   editMode: false,
+  letters:'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
   records: []
 }
 
@@ -78,7 +87,30 @@ const getters = {
 
   getEditModeStatus: (state) => () => {
     return state.editMode
-  }
+  },
+
+  getLetters: (state) => () => {
+    return state.letters
+  },
+
+  getContactsByLetter: (state) => (letter) => {
+    return state.records.filter(i=> { return i.name.lastName.toLowerCase().indexOf(letter.toLowerCase()) === 0; });
+  },
+
+  getNextLetterWithContacts: (state, getters) => (index) => {
+    var children = [];
+    var nextLetter;
+    while (children.length === 0) { // iterate until we find a letter with children
+        // this loop can go forever incase of empty contacts
+        // but empty contacts case is handled by the callee, so no risk.
+        index = getNextLetterIndex(index);
+        var getLetters = state.letters
+        nextLetter = getLetters[index];
+        children = getters.getContactsByLetter(nextLetter);
+    }
+
+    return nextLetter;
+},
 }
 
 export default new Vuex.Store({

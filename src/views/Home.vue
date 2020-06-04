@@ -11,6 +11,7 @@
 
 <script>
 import recordFooter from '../components/record.footer'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'Home',
@@ -20,10 +21,19 @@ export default {
 
     beforeCreate() {
         if(this.$store.state.records.length != 0) {
+            // beforeCreate is called
+            // before mapGetters get initialized
+            // component, its returns undefined / not a function
+            // therefore directly accessing this.$store
+
+            var letters = this.$store.getters.getLetters()
+            var getInitialContact = this.$store.getters.getNextLetterWithContacts(letters.indexOf('a'))
+            var getLetterContacts = this.$store.getters.getContactsByLetter(getInitialContact)
+
             this.$router.push({
                 name: 'viewRecord',
                 params: {
-                    id: this.$store.state.records[0].uid
+                    id: getLetterContacts[0].uid
                 }
             })
         }

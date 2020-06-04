@@ -1,11 +1,11 @@
 <template>
     <div class="c-flex full-height record-list-wrapper scroll">
         <div class="record-list">
-            <div v-for="(letter, index) in letters" :key="index" class="alphabetical-records">
-                <template v-if="alphaContacts(letter).length">
+            <div v-for="(letter, index) in getLetters()" :key="index" class="alphabetical-records">
+                <template v-if="getContactsByLetter(letter).length">
                     <h4>{{ letter }}</h4>
                     <ul>
-                        <li v-for="(contact, idx) in alphaContacts(letter)" :key="idx">
+                        <li v-for="(contact, idx) in getContactsByLetter(letter)" :key="idx">
                             <router-link :to="{ name: frameRoute() , params: { id: contact.uid } }">
                                 {{contact.name.firstName}} {{contact.name.lastName}} 
                             </router-link>
@@ -23,41 +23,22 @@
 <script>
 import { mapGetters } from 'vuex'
 
-var getNextLetterIndex = function(index) {
-    if (index === 25) {
-        return 0;
-    } else {
-        return index+1;
-    }
-};
-
 export default {
     name: 'ListRecords',
-    data() {
-        return {
-            letters:'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
-            count: 0
-        }
-    },
-
     computed: {
-        records() {
-            return this.$store.state.records
-        },
-
         ...mapGetters([
-            'getEditModeStatus'
+            'getEditModeStatus',
+            'getContactsByLetter',
+            'getLetters',
+            'getNextLetterWithContacts'
         ])
     },
 
     methods: {
-        alphaContacts:function(l) {
-            return this.records.filter(i=> { return i.name.lastName.toLowerCase().indexOf(l.toLowerCase()) === 0; });
-        },
 
         deleteRecord: function(contact, idx ,letter, index) {
             this.$store.dispatch('removeRecord', contact)
-            let children = this.alphaContacts(letter)
+            let children = this.getContactsByLetter(letter)
 
             if (!this.$store.state.records.length) { // we've exhausted all contacts
                 this.$router.push({
@@ -73,7 +54,7 @@ export default {
             } else { // childrens.length === 0 i.e we exhausted the current letter
                 // go to next letter with contacts
                 var nextLetter = this.getNextLetterWithContacts(index);
-                var nextChildren = this.alphaContacts(nextLetter);
+                var nextChildren = this.getContactsByLetter(nextLetter);
                 this.$router.push({
                     name: 'editRecord',
                     params: {
@@ -81,20 +62,6 @@ export default {
                     }
                 })
             }        
-        },
-
-        getNextLetterWithContacts: function(index) {
-            var children = [];
-            var nextLetter;
-            while (children.length === 0) { // iterate until we find a letter with children
-                // this loop can go forever incase of empty contacts
-                // but empty contacts case is handled by the callee, so no risk.
-                index = getNextLetterIndex(index);
-                nextLetter = this.letters[index];
-                children = this.alphaContacts(nextLetter);
-            }
-
-            return nextLetter;
         },
 
         frameRoute() {
@@ -173,6 +140,7 @@ export default {
                             line-height: 0.5;
                             cursor: pointer;
                             color: #fff;
+                            user-select: none;
                         }
                     }
                 }
