@@ -41,19 +41,19 @@
           </div>
         </div>
       </div>
-      <recordFooter view="view" @edit="editRecord" />
+      <contactFooter view="view" @edit="editContactDetails" />
     </template>
   </div>
 </template>
 
 <script>
-import recordFooter from '../components/record.footer'
+import contactFooter from '../components/contact.footer'
 import { mapGetters } from 'vuex'
 
 export default {
-    name: 'ViewRecord',
+    name: 'ViewContact',
     components: {
-      recordFooter
+      contactFooter
     },
     
     data() {
@@ -74,20 +74,20 @@ export default {
 
     computed: {
       ...mapGetters([
-        'getRecordById'
+        'getContactById'
       ])
     },
 
     methods: {
       getContact(id) { 
-        this.contact = this.getRecordById(id)
+        this.contact = this.getContactById(id)
         if(this.contact) {
           this.load = false
         }
       },
 
-      editRecord() {
-        this.$router.push({ name: 'editRecord', params: { id: this.contact.uid } })
+      editContactDetails() {
+        this.$router.push({ name: 'editContact', params: { id: this.contact.uid } })
       }
     }
 }

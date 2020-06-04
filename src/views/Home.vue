@@ -5,21 +5,21 @@
                 <span>No Results</span>
             </div>
         </div>
-        <recordFooter view="no-result" />
+        <contactFooter view="no-result" />
     </div>
 </template>
 
 <script>
-import recordFooter from '../components/record.footer'
+import contactFooter from '../components/contact.footer'
 
 export default {
     name: 'Home',
     components: {
-        recordFooter
+        contactFooter
     },
 
     beforeCreate() {
-        if(this.$store.state.records.length != 0) {
+        if(this.$store.state.contacts.length != 0) {
             // beforeCreate is called
             // before mapGetters get initialized
             // component, its returns undefined / not a function
@@ -30,7 +30,7 @@ export default {
             var getLetterContacts = this.$store.getters.getContactsByLetter(getInitialContact)
 
             this.$router.push({
-                name: 'viewRecord',
+                name: 'viewContact',
                 params: {
                     id: getLetterContacts[0].uid
                 }

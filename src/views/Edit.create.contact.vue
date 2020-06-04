@@ -74,13 +74,13 @@
         </div>
       </div>
 
-      <recordFooter view="edit" @save="saveRecord"/>
+      <contactFooter view="edit" @save="saveContact"/>
     </template>
   </div>
 </template>
 
 <script>
-import recordFooter from '../components/record.footer'
+import contactFooter from '../components/contact.footer'
 import { mapGetters } from 'vuex'
 
 function ContactObj() {
@@ -99,7 +99,7 @@ function ContactObj() {
 export default {
     name: 'EditCreate',
     components: {
-        recordFooter
+        contactFooter
     },
 
     data() {
@@ -114,7 +114,7 @@ export default {
       let routeParams = this.$route.params
       if(Object.prototype.hasOwnProperty.call(routeParams, 'id')) {
         this.view = 'edit'
-        this.getRecord(routeParams.id)
+        this.getContact(routeParams.id)
       } else {
         this.contact = ContactObj()
         this.load = false
@@ -122,9 +122,9 @@ export default {
     },
 
     beforeRouteUpdate: function(to, from, next) {
-      if(from.name === 'editRecord') {
+      if(from.name === 'editContact') {
         if(this.getEditModeStatus()) {  
-          this.$store.dispatch('updateIsEdit', from.params.id)
+          this.$store.dispatch('toggleContactEditMode', from.params.id)
         }
       } 
 
@@ -132,8 +132,8 @@ export default {
     },
 
     beforeRouteLeave(to, from, next) {
-      if(to.name !== 'editRecord') {
-        this.$store.dispatch('updateIsEdit', from.params.id)
+      if(to.name !== 'editContact') {
+        this.$store.dispatch('toggleContactEditMode', from.params.id)
       }
 
       next()
@@ -141,41 +141,41 @@ export default {
 
     computed: {
       ...mapGetters([
-        'getRecordById',
+        'getContactById',
         'getEditModeStatus'
       ])
     },
 
     methods: {
-      getRecord() {
-        let gotContact = this.getRecordById(this.$route.params.id)
+      getContact() {
+        let gotContact = this.getContactById(this.$route.params.id)
         
         if(gotContact) {          
-          this.$store.dispatch('updateIsEdit', gotContact.uid)
+          this.$store.dispatch('toggleContactEditMode', gotContact.uid)
           this.contact = JSON.parse(JSON.stringify(gotContact))
 
           if(!this.getEditModeStatus()) {
-            this.$store.dispatch('toggleEditMode')
+            this.$store.dispatch('setEditMode', true)
           }
           this.load = false
         } else {
           this.$router.push({
-            name: 'createRecord'
+            name: 'createContact'
           })
         }
         
       },
 
-      saveRecord () {
+      saveContact () {
         if(this.view == 'new') {
-          this.$store.dispatch('addRecord', this.contact)
+          this.$store.dispatch('addContact', this.contact)
           this.contact = ContactObj()
         } else {
-          this.$store.dispatch('editRecord', this.contact)
-          
-          this.$store.dispatch('toggleEditMode')
+          this.$store.dispatch('editContact', this.contact)
+          this.$store.dispatch('setEditMode', false)
+
           this.$router.push({
-            name: 'viewRecord',
+            name: 'viewContact',
             params: {
               id: this.$route.params.id
             }

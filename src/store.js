@@ -14,75 +14,77 @@ var getNextLetterIndex = function(index) {
 const state = {
   editMode: false,
   letters:'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
-  records: []
+  contacts: []
 }
 
 const mutations = {
-  addRecord(state, contact) {
-    state.records.push(contact)
+  addContact(state, contact) {
+    state.contacts.push(contact)
   },
 
-  updateIsEdit(state, contact) {
-    state.records = state.records.map(record => {
-      if (record.uid === contact.id) {
-        record.isEditing = !record.isEditing
-        return record
-      }      
-      return record
-    })
-  },
-
-  removeRecord(state, contact) {
-    state.records.splice(state.records.indexOf(contact), 1)
-  },
-
-  toggleEditMode(state) {
-    state.editMode = !state.editMode
-  },
-
-  editRecord(state, editRecord) {
-    state.records = state.records.map(record => {
-      if (record.uid === editRecord.uid) {
-        return editRecord
+  editContact(state, contact) {
+    state.contacts = state.contacts.map(item => {
+      if (item.uid === contact.uid) {
+        return contact
       }
-      return record
+      return item
     })
-  }
+  },
+
+  removeContact(state, contact) {
+    state.contacts.splice(state.contacts.indexOf(contact), 1)
+  },
+
+  toggleContactEditMode(state, contact) {
+    state.contacts = state.contacts.map(item => {
+      if (item.uid === contact.id) {
+        item.isEditing = !item.isEditing
+        return item
+      }      
+      return item
+    })
+  },
+
+  setEditMode(state, { status }) {
+    state.editMode = status
+  },
 }
 
 const actions = {
-  addRecord ({ commit }, contact) {
-    commit('addRecord', {
+  addContact ({ commit }, contact) {
+    commit('addContact', {
       ...contact,
       uid: contact.uid || (Date.now()).toString(),      
       isEditing: false
     })
   },
 
-  editRecord ({ commit }, contact) {
-    commit('editRecord', {
+  editContact ({ commit }, contact) {
+    commit('editContact', {
       ...contact
     })
   },
 
-  removeRecord ({ commit }, contact) {
-    commit('removeRecord', contact)
+  removeContact ({ commit }, contact) {
+    commit('removeContact', contact)
   },
 
-  updateIsEdit ({ commit }, id) {
-    commit('updateIsEdit', {
+  toggleContactEditMode ({ commit }, id) {
+    commit('toggleContactEditMode', {
       id
     })
   },
 
-  toggleEditMode ({ commit }) {
-    commit('toggleEditMode')
+  setEditMode ({ commit }, status) {
+    commit('setEditMode', {
+      status
+    })
   }
 }
 
 const getters = {
-  getRecordById: (state) => (id) => {
-    return state.records.find(record => record.uid === id)
+  getContactById: (state) => (id) => {
+    return state.contacts.find(contact => contact.uid === id)
   },
 
   getEditModeStatus: (state) => () => {
@@ -94,7 +96,7 @@ const getters = {
   },
 
   getContactsByLetter: (state) => (letter) => {
-    return state.records.filter(i=> { return i.name.lastName.toLowerCase().indexOf(letter.toLowerCase()) === 0; });
+    return state.contacts.filter(i=> { return i.name.lastName.toLowerCase().indexOf(letter.toLowerCase()) === 0; });
   },
 
   getNextLetterWithContacts: (state, getters) => (index) => {

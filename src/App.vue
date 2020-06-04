@@ -1,24 +1,24 @@
 <template>
   <div id="app" class="c-flex full-height">
-    <ListRecords />
+    <ListContacts />
     <router-view :key="$route.path"></router-view>
   </div>
 </template>
 
 <script>
-import ListRecords from './components/list.records.vue'
+import ListContacts from './components/list.contacts.vue'
 import MockData from './mock-data/index'
 
 export default {
   name: 'App',
   components: {
-    ListRecords
+    ListContacts
   },
 
   beforeCreate() {
     var mockLength = MockData.length
     for(var i = 0; i < mockLength; i++) {
-      this.$store.dispatch('addRecord', MockData[i])
+      this.$store.dispatch('addContact', MockData[i])
     }
   }
 }

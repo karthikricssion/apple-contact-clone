@@ -10,7 +10,7 @@
                                 {{contact.name.firstName}} {{contact.name.lastName}} 
                             </router-link>
                             <template v-if="contact.isEditing">
-                                <span @click="deleteRecord(contact, idx, letter, index)" class="delete-icon">-</span>
+                                <span @click="deleteContact(contact, idx, letter, index)" class="delete-icon">-</span>
                             </template>
                         </li>
                     </ul>
@@ -24,7 +24,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-    name: 'ListRecords',
+    name: 'ListContacts',
     computed: {
         ...mapGetters([
             'getEditModeStatus',
@@ -36,17 +36,17 @@ export default {
 
     methods: {
 
-        deleteRecord: function(contact, idx ,letter, index) {
-            this.$store.dispatch('removeRecord', contact)
+        deleteContact: function(contact, idx ,letter, index) {
+            this.$store.dispatch('removeContact', contact)
             let children = this.getContactsByLetter(letter)
 
-            if (!this.$store.state.records.length) { // we've exhausted all contacts
+            if (!this.$store.state.contacts.length) { // we've exhausted all contacts
                 this.$router.push({
                     name: 'home'
                 })
             } else if (children.length && idx < children.length) { // we haven't exhausted the current letter yet
                 this.$router.push({
-                    name: 'editRecord',
+                    name: 'editContact',
                     params: {
                         id: children[idx].uid
                     }
@@ -56,7 +56,7 @@ export default {
                 var nextLetter = this.getNextLetterWithContacts(index);
                 var nextChildren = this.getContactsByLetter(nextLetter);
                 this.$router.push({
-                    name: 'editRecord',
+                    name: 'editContact',
                     params: {
                         id: nextChildren[0].uid
                     }
@@ -66,9 +66,9 @@ export default {
 
         frameRoute() {
             if(this.getEditModeStatus()) {
-                return 'editRecord'
+                return 'editContact'
             } else {
-                return 'viewRecord'
+                return 'viewContact'
             }
             
         }
