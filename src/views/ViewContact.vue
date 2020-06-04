@@ -33,7 +33,7 @@
 
             <div class="c-flex other-contact-information">
               <div class="c-flex contact-label">
-                <label>notes</label>
+                <label>note</label>
               </div>
               <div class="c-flex contact-information">{{contact.notes}}</div>
             </div>

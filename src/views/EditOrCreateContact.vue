@@ -56,7 +56,7 @@
 
             <div class="c-flex other-contact-information">
               <div class="c-flex contact-label">
-                <label>notes</label>
+                <label>note</label>
               </div>
 
               <div class="c-flex contact-information">
@@ -83,7 +83,7 @@
 import ContactFooter from '../components/ContactFooter'
 import { mapGetters } from 'vuex'
 
-function ContactObj() {
+function getNewContactObj() {
   return {
     name: {
         firstName: '',
@@ -105,18 +105,22 @@ export default {
     data() {
         return {
           view: 'new',
-          contact: ContactObj(),
+          contact: getNewContactObj(),
           load: true
         }
     },
     
     beforeMount() {
       let routeParams = this.$route.params
+      /*
+        Based on the URL params, component
+        works accordingly
+      */
       if(Object.prototype.hasOwnProperty.call(routeParams, 'id')) {
         this.view = 'edit'
         this.getContact(routeParams.id)
       } else {
-        this.contact = ContactObj()
+        this.contact = getNewContactObj()
         this.load = false
       }
     },
@@ -148,11 +152,11 @@ export default {
 
     methods: {
       getContact() {
-        let gotContact = this.getContactById(this.$route.params.id)
+        let contact = this.getContactById(this.$route.params.id)
         
-        if(gotContact) {          
-          this.$store.dispatch('toggleContactEditMode', gotContact.uid)
-          this.contact = JSON.parse(JSON.stringify(gotContact))
+        if(contact) {          
+          this.$store.dispatch('toggleContactEditMode', contact.uid)
+          this.contact = JSON.parse(JSON.stringify(contact))
 
           if(!this.getEditModeStatus()) {
             this.$store.dispatch('setEditMode', true)
@@ -169,7 +173,7 @@ export default {
       saveContact () {
         if(this.view == 'new') {
           this.$store.dispatch('addContact', this.contact)
-          this.contact = ContactObj()
+          this.contact = getNewContactObj()
         } else {
           this.$store.dispatch('editContact', this.contact)
           this.$store.dispatch('setEditMode', false)

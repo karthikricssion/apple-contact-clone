@@ -19,6 +19,10 @@ export default {
     },
 
     beforeCreate() {
+        /*
+            if the store contacts not empty, go to the initial
+            contact from the list of contact shown on the left sidebar.
+        */
         if(this.$store.state.contacts.length != 0) {
             // beforeCreate is called
             // before mapGetters get initialized

@@ -41,7 +41,7 @@ export default {
             let children = this.getContactsByLetter(letter)
             
             /* case 1:
-                After removing a contact, if the contact in store 
+                After removing a contact, if the contacts in store 
                 is empty. It should redirected to home page.
             */
             if (!this.$store.state.contacts.length) { // we've exhausted all contacts
@@ -50,9 +50,8 @@ export default {
                 })
             
             /* case 2:
-                After removing a contact, if index of deleted 
-                contact is still less than children then routing 
-                it to contact.
+                After removing a contact, if the letter has children 
+                it move to the next contact
             */
             } else if (children.length && idx < children.length) { // we haven't exhausted the current letter yet
                 this.$router.push({
@@ -61,13 +60,12 @@ export default {
                         id: children[idx].uid
                     }
                 })
-                
+
             /* case 3:
-                After removing a contact, if index and the children
-                length are equal, then we need to look for the next
-                letter which has childern in it. 
+                After removing a contact, if the letter has no children
+                then move to next letter which has children.
             */
-            } else { // childrens.length === 0 i.e we exhausted the current letter
+            } else { // children.length === 0 i.e we exhausted the current letter
                 // go to next letter with contacts
                 var nextLetter = this.getNextLetterWithContacts(index);
                 var nextChildren = this.getContactsByLetter(nextLetter);
