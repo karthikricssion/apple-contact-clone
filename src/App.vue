@@ -35,7 +35,7 @@ export default {
     height: 100%;
     font-family: 'Roboto', sans-serif;
     overflow: hidden;
-    user-select: none;
+    // user-select: none;
     padding: 0;
     margin: 0;
     
@@ -101,6 +101,11 @@ export default {
     width: 100%;
     display: block;
     margin: auto;
+  }
+
+  textarea, input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
   }
 
   .btn-primary {

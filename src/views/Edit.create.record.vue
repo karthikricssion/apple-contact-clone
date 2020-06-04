@@ -194,9 +194,10 @@ export default {
 
     input {
       font-size: 2em;
-      font-weight: 500;
+      font-weight: 400;
       border: 1px solid #c4c4c4;
       border-radius: 3px;
+      
     }
 
     label {
@@ -213,6 +214,7 @@ export default {
       width: 100%;
       border: 1px solid #c4c4c4;
       border-radius: 3px;
+      font-size: 14px;
     }
 
     textarea {
@@ -220,7 +222,7 @@ export default {
       border: 1px solid #c4c4c4;
       border-radius: 3px;
       resize: none;
-      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
     }
   }
 

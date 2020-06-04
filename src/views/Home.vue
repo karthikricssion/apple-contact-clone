@@ -16,6 +16,17 @@ export default {
     name: 'Home',
     components: {
         recordFooter
+    },
+
+    beforeCreate() {
+        if(this.$store.state.records.length != 0) {
+            this.$router.push({
+                name: 'viewRecord',
+                params: {
+                    id: this.$store.state.records[0].uid
+                }
+            })
+        }
     }
 }
 </script>
