@@ -115,13 +115,38 @@ export default {
   }
 
   .view-record-container {
-    min-width: 800px;
+    width: 100%;
     margin: 0 auto;
     padding: 24px;
+    max-width: 800px;
   }
 
   .contact-other-information-wrapper {
-    margin-top: 96px;
+    margin-top: 80px;
+
+    .other-contact-information {
+      border-top: 1px solid #c4c4c4;
+      padding: 14px 8px;
+      font-size: 14px;
+
+      .contact-label {
+        max-width: 150px;
+        justify-content: flex-end;
+
+        label {
+          color: #c4c4c4;
+          margin-right: 16px;
+        }
+      }
+
+      .contact-information {
+        max-width: 300px;
+      }
+
+      &:first-child {
+        border: 0;
+      }
+    }
   }
 
 </style>

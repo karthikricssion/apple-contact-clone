@@ -8,25 +8,36 @@
             <h1>{{contact.name.lastName}}</h1>
           </div>
           <div class="contact-other-information-wrapper">
-            <div class="other-contact-information">
-              <span>phone</span>
-              <span>{{contact.phone}}</span>
+            <div class="c-flex other-contact-information">
+              <div class="c-flex contact-label">
+                <label>phone</label>
+              </div>
+              <div class="c-flex contact-information">{{contact.phone}}</div>
             </div>
 
-            <div class="other-contact-information">
-              <span>email</span>
-              <span>{{contact.email}}</span>
+            <div class="c-flex other-contact-information">
+              <div class="c-flex contact-label">
+                <label>email</label>
+              </div>
+              <div class="c-flex contact-information">
+                <a v-bind:href="'mailto:' + contact.email">{{contact.email}}</a>
+              </div>
             </div>
 
-            <div class="other-contact-information">
-              <span>address</span>
-              <span>{{contact.address}}</span>
+            <div class="c-flex other-contact-information">
+              <div class="c-flex contact-label">
+                <label>address</label>
+              </div>
+              <div class="c-flex contact-information">{{contact.address}}</div>
             </div>
 
-            <div class="other-contact-information">
-              <span>notes</span>
-              <span>{{contact.notes}}</span>
+            <div class="c-flex other-contact-information">
+              <div class="c-flex contact-label">
+                <label>notes</label>
+              </div>
+              <div class="c-flex contact-information">{{contact.notes}}</div>
             </div>
+
           </div>
         </div>
       </div>
@@ -92,10 +103,10 @@ export default {
     }
 
     .other-contact-information {
-      border-top: 1px solid #c4c4c4;
-
-      &:first-child {
-        border: 0;
+      .contact-information {
+        a {
+          text-decoration: underline !important;
+        }
       }
     }
 </style>

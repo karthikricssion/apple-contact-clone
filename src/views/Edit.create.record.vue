@@ -17,42 +17,61 @@
 
           </div>
           <div class="contact-other-information-wrapper">
-            <div class="other-form-inputs">
-              <div class="input-label-holder">
+
+            <div class="c-flex other-contact-information">
+              <div class="c-flex contact-label">
                 <label>phone</label>
               </div>
 
-              <div class="input-holder">
-                <input type="text"  v-model="contact.phone" />
+              <div class="c-flex contact-information">
+                <input type="tel"  v-model="contact.phone" />
               </div>
             </div>
-            <div class="other-form-inputs">
-              <div class="input-label-holder">
+
+            <div class="c-flex other-contact-information">
+              <div class="c-flex contact-label">
                 <label>email</label>
               </div>
 
-              <div class="input-holder">
-                <input type="emaik" v-model="contact.email" />
+              <div class="c-flex contact-information">
+                <input type="email"  spellcheck="false" v-model="contact.email" />
               </div>
             </div>
-            <div class="other-form-inputs">
-              <div class="input-label-holder">
+
+            <div class="c-flex other-contact-information">
+              <div class="c-flex contact-label">
                 <label>address</label>
               </div>
 
-              <div class="input-holder">
-                <textarea v-model="contact.address"></textarea>
+              <div class="c-flex contact-information">
+                <textarea-autosize
+                  spellcheck="false"
+                  ref="myTextarea"
+                  v-model="contact.address"
+                  :min-height="30"
+                  :max-height="350"
+                  @blur.native="onBlurTextarea"
+                />
               </div>
             </div>
-            <div class="other-form-inputs">
-              <div class="input-label-holder">
+
+            <div class="c-flex other-contact-information">
+              <div class="c-flex contact-label">
                 <label>notes</label>
               </div>
 
-              <div class="input-holder">
-                <textarea v-model="contact.notes"></textarea>
+              <div class="c-flex contact-information">
+                <textarea-autosize
+                  spellcheck="false"
+                  ref="myTextarea"
+                  v-model="contact.notes"
+                  :min-height="30"
+                  :max-height="350"
+                  @blur.native="onBlurTextarea"
+                />
               </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -173,23 +192,38 @@ export default {
   .form-input {
     display: inline-block;
     margin-right: 16px;
+    position: relative;
 
     input {
       font-size: 2em;
       font-weight: 500;
       border: 1px solid #c4c4c4;
       border-radius: 3px;
-      margin-bottom: 4px;
     }
 
     label {
       display: block;
       font-size: 14px;
       color: #c4c4c4;
+      position: absolute;
+      bottom: -20px;
     }
   }
 
-  .other-form-inputs {
-    border-top: 1px solid #c4c4c4;
+  .contact-information {
+    input {
+      width: 100%;
+      border: 1px solid #c4c4c4;
+      border-radius: 3px;
+    }
+
+    textarea {
+      width: 100%;
+      border: 1px solid #c4c4c4;
+      border-radius: 3px;
+      resize: none;
+      font-family: 'Roboto', sans-serif;
+    }
   }
+
 </style>
