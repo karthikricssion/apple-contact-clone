@@ -41,19 +41,19 @@
           </div>
         </div>
       </div>
-      <contactFooter view="view" @edit="editContactDetails" />
+      <ContactFooter view="view" @edit="editContactDetails" />
     </template>
   </div>
 </template>
 
 <script>
-import contactFooter from '../components/contact.footer'
+import ContactFooter from '../components/ContactFooter'
 import { mapGetters } from 'vuex'
 
 export default {
     name: 'ViewContact',
     components: {
-      contactFooter
+      ContactFooter
     },
     
     data() {

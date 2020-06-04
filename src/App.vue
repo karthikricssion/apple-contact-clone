@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ListContacts from './components/list.contacts.vue'
+import ListContacts from './components/ListContacts'
 import MockData from './mock-data/index'
 
 export default {

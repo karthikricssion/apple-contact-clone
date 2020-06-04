@@ -5,17 +5,17 @@
                 <span>No Results</span>
             </div>
         </div>
-        <contactFooter view="no-result" />
+        <ContactFooter view="no-result" />
     </div>
 </template>
 
 <script>
-import contactFooter from '../components/contact.footer'
+import ContactFooter from '../components/ContactFooter'
 
 export default {
     name: 'Home',
     components: {
-        contactFooter
+        ContactFooter
     },
 
     beforeCreate() {

@@ -74,13 +74,13 @@
         </div>
       </div>
 
-      <contactFooter view="edit" @save="saveContact"/>
+      <ContactFooter view="edit" @save="saveContact"/>
     </template>
   </div>
 </template>
 
 <script>
-import contactFooter from '../components/contact.footer'
+import ContactFooter from '../components/ContactFooter'
 import { mapGetters } from 'vuex'
 
 function ContactObj() {
@@ -97,9 +97,9 @@ function ContactObj() {
 }
 
 export default {
-    name: 'EditCreate',
+    name: 'EditOrCreate',
     components: {
-        contactFooter
+        ContactFooter
     },
 
     data() {

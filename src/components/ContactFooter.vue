@@ -24,7 +24,7 @@
 <script>
 export default {
     props: ['view'],
-    name: 'contactFooter'
+    name: 'ContactFooter'
 }
 </script>
 
