@@ -50,7 +50,6 @@
                   v-model="contact.address"
                   :min-height="30"
                   :max-height="350"
-                  @blur.native="onBlurTextarea"
                 />
               </div>
             </div>
@@ -67,7 +66,6 @@
                   v-model="contact.notes"
                   :min-height="30"
                   :max-height="350"
-                  @blur.native="onBlurTextarea"
                 />
               </div>
             </div>

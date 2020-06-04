@@ -41,12 +41,32 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-    if(store.state.records.length == 0 && to.path !== '/' && to.path !== '/new') {
-        next('/')
-    } else {
-        // console.log(to)
-        next()
-    }
+    // if(store.state.records.length == 0 && to.path !== '/' && to.path !== '/new') {
+    //     next('/')
+    // } else {
+    //     // console.log(to)
+    //     next()
+    // }
+
+    // console.log(to.params, Object.prototype.hasOwnProperty.call(to.params, 'id'))
+
+    // Check if contacts has records, if not 
+    // Go to home page, that shows "No Result"
+    // if(store.state.records.length == 0 && to.path !== '/' && to.path !== '/new') {
+    //     next('/')
+    // } else {
+    //     if(Object.prototype.hasOwnProperty.call(to.params, 'id')) {
+    //         if(to.params.id) {
+    //             next(to.path)
+    //         }
+    //     } else {
+    //         // next('/'+store.state.records[0].uid)
+    //     }
+    // }
+
+    console.log(store)
+
+    next()
 })
 
 export default router

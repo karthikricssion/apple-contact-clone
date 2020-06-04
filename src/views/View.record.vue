@@ -107,6 +107,8 @@ export default {
         a {
           text-decoration: underline !important;
         }
+
+        white-space: pre-wrap;
       }
     }
 </style>
