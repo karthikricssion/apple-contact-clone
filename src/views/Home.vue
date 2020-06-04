@@ -11,7 +11,6 @@
 
 <script>
 import recordFooter from '../components/record.footer'
-import { mapGetters } from 'vuex'
 
 export default {
     name: 'Home',
