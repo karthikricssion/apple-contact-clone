@@ -1,4 +1,16 @@
-# apple-contacts-clone
+# Apple Contacts Clone
+[Demo](https://infallible-sammet-50268e.netlify.app/#/).
+
+## Screenshots
+### Create Contact 
+![create contact](./src/assets/creating-contact.png)
+
+### View Contact 
+![create contact](./src/assets/view-contact.png)
+
+### Edit Contact 
+![create contact](./src/assets/edit-mode.png)
+
 
 ## Project setup
 ```
@@ -19,9 +31,3 @@ npm run build
 ```
 npm run lint
 ```
-
-[Status Demo](https://infallible-sammet-50268e.netlify.app/#/).
-
-
-status update on isEditing took me a long time,
-- Tried different approach, since the updated isEditing is not being considered inside the route contact
